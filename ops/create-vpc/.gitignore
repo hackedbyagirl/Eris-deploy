@@ -1,0 +1,3 @@
+*.tfstate
+*.tfvars
+*.auto.tfvars
