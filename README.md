@@ -3,12 +3,12 @@
  <img width=400px height=400px src="https://github.com/hackedbyagirl/Eris/blob/main/imgs/eris-goddess.png" alt="Eris Avatar"></a>
 </p>
 
-<h2 align="center">Eris</h2>
+<h2 align="center">Eris-deploy</h2>
 
 <div align="center">
 
-  [![Status](https://img.shields.io/badge/status-in%20development-yellowgreen)](https://github.com/hackedbyagirl/Eris) 
-  [![GitHub Issues](https://img.shields.io/github/issues/hackedbyagirl/kali-packer-ami)](https://github.com/hackedbyagirl/Eris/issues)
+  [![Status](https://img.shields.io/badge/status-in%20development-yellowgreen)](https://github.com/hackedbyagirl/Eris-deploy) 
+  [![GitHub Issues](https://img.shields.io/github/issues/hackedbyagirl/kali-packer-ami)](https://github.com/hackedbyagirl/Eris-deploy/issues)
 
 </div>
 
