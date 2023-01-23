@@ -68,7 +68,7 @@ Instructions on how to get Eris configured locally.
 Clone the repository
 ```bash
 #Download Repo and Navigate to Directory
-git clone https://github.com/hackedbyagirl/Eris.git
+git clone https://github.com/hackedbyagirl/Eris-deploy.git
 cd Eris
 ```
 
