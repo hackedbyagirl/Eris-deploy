@@ -23,7 +23,7 @@ resource "aws_iam_role_policy_attachment" "access_terraform_backend_policy_attac
 }
 
 # ------------------------------------------------------------------------------
-# IAM Role - 
+# IAM Role - PhishingCampaignAssessment 
 # ------------------------------------------------------------------------------
 
 resource "aws_iam_role" "access_pca_terraform_backend_role" {
@@ -39,7 +39,7 @@ resource "aws_iam_role_policy_attachment" "access_pca_terraform_backend_policy_a
 }
 
 # ------------------------------------------------------------------------------
-# IAM Role - 
+# IAM Role - DomainManager
 # ------------------------------------------------------------------------------
 
 resource "aws_iam_role" "access_domainmanager_terraform_backend_role" {
@@ -56,7 +56,7 @@ resource "aws_iam_role_policy_attachment" "access_domainmanager_terraform_backen
 
 
 # ------------------------------------------------------------------------------
-# IAM Role - 
+# IAM Role - ProvisionBackend
 # ------------------------------------------------------------------------------
 
 resource "aws_iam_role_policy_attachment" "provisionbackend_policy_attachment" {

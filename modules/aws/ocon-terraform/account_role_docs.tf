@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "access_terraform_backend_access_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.state_bucket.arn,
+      aws_s3_bucket.s3_bucket.arn,
     ]
   }
 
@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "access_terraform_backend_access_doc" {
       "s3:PutObject",
     ]
     resources = [
-      "${aws_s3_bucket.state_bucket.arn}/*",
+      "${aws_s3_bucket.s3_bucket.arn}/*",
     ]
   }
 
@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "access_terraform_backend_access_doc" {
       "dynamodb:PutItem",
     ]
     resources = [
-      aws_dynamodb_table.state_lock_table.arn,
+      aws_dynamodb_table.dynamodb_table_name.arn,
     ]
   }
 }
@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "read_terraform_state_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.state_bucket.arn,
+      aws_s3_bucket.s3_bucket.arn,
     ]
   }
 
@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "read_terraform_state_doc" {
       "s3:GetObject",
     ]
     resources = [
-      "${aws_s3_bucket.state_bucket.arn}/*",
+      "${aws_s3_bucket.s3_bucket.arn}/*",
     ]
   }
 }
@@ -89,7 +89,7 @@ data "aws_iam_policy_document" "provisionbackend_doc" {
       "s3:*"
     ]
     resources = [
-      "arn:aws:s3:::${var.state_bucket_name}",
+      "arn:aws:s3:::${var.s3_bucket_name}",
     ]
   }
 
@@ -99,12 +99,10 @@ data "aws_iam_policy_document" "provisionbackend_doc" {
       "dynamodb:*",
     ]
     resources = [
-      "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.terraform.account_id}:table/${var.state_table_name}",
+      "arn:aws:dynamodb:${var.aws_region}:${data.aws_caller_identity.terraform.account_id}:table/${var.dynamodb_table_name}",
     ]
   }
 }
-
-
 
 # ------------------------------------------------------------------------------
 #                 IAM Policy Document - PhishingCampaignAssessment
@@ -120,7 +118,7 @@ data "aws_iam_policy_document" "access_pca_terraform_backend_access_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.state_bucket.arn,
+      aws_s3_bucket.s3_bucket.arn,
     ]
   }
 
@@ -131,7 +129,7 @@ data "aws_iam_policy_document" "access_pca_terraform_backend_access_doc" {
       "s3:PutObject",
     ]
     # Any workspace of any project in var.pca_terraform_projects
-    resources = [for tf_project in var.pca_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.state_bucket.arn, tf_project)]
+    resources = [for tf_project in var.pca_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.s3_bucket.arn, tf_project)]
   }
 
   statement {
@@ -141,7 +139,7 @@ data "aws_iam_policy_document" "access_pca_terraform_backend_access_doc" {
       "dynamodb:PutItem",
     ]
     resources = [
-      aws_dynamodb_table.state_lock_table.arn,
+      aws_dynamodb_table.dynamodb_table_name.arn,
     ]
   }
 }
@@ -159,7 +157,7 @@ data "aws_iam_policy_document" "access_domainmanager_terraform_backend_access_do
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.state_bucket.arn,
+      aws_s3_bucket.s3_bucket.arn,
     ]
   }
 
@@ -170,7 +168,7 @@ data "aws_iam_policy_document" "access_domainmanager_terraform_backend_access_do
       "s3:PutObject",
     ]
     # Any workspace of any project in var.domainmanager_terraform_projects
-    resources = [for tf_project in var.domainmanager_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.state_bucket.arn, tf_project)]
+    resources = [for tf_project in var.domainmanager_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.s3_bucket.arn, tf_project)]
   }
 
   statement {
@@ -180,7 +178,7 @@ data "aws_iam_policy_document" "access_domainmanager_terraform_backend_access_do
       "dynamodb:PutItem",
     ]
     resources = [
-      aws_dynamodb_table.state_lock_table.arn,
+      aws_dynamodb_table.dynamodb_table_name.arn,
     ]
   }
 }

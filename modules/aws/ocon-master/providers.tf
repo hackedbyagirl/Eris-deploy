@@ -4,7 +4,7 @@ provider "aws" {
   default_tags {
     tags = var.tags
   }
-  # Use this profile once the account has been bootstrapped.
   profile = "ocon-master-account-admin"
+  # profile = "ocon-master-provisioner"
   region = var.aws_region
 }

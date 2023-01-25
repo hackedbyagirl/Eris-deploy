@@ -1,18 +1,74 @@
 # ------------------------------------------------------------------------------
-# REQUIRED PARAMETERS
-#
-# You must provide a value for each of these parameters.
+#                             REQUIRED PARAMETERS
 # ------------------------------------------------------------------------------
-
-variable "state_bucket_name" {
+variable "s3_bucket" {
   type        = string
   description = "The name to use for the S3 bucket that will store the Terraform state."
 }
 
 # ------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
-#
-# These parameters have reasonable defaults.
+#                                AWS Configuration
+# ------------------------------------------------------------------------------
+
+variable "aws_region" {
+  type        = string
+  description = "The AWS region where the non-global resources for this account are to be provisioned (e.g. \"us-east-1\")."
+  default     = "us-west-1"
+}
+variable "tags" {
+  type        = map(string)
+  description = "Tags to apply to all AWS resources created."
+  default     = {}
+}
+
+# ------------------------------------------------------------------------------
+#                             Backend Configuration
+# ------------------------------------------------------------------------------
+variable "domainmanager_terraform_projects" {
+  type        = list(string)
+  description = "The list of project names that contain Domain Manager-related Terraform code (e.g. [\"my-domain-manager-project\"])."
+  default     = []
+}
+
+variable "pca_terraform_projects" {
+  type        = list(string)
+  description = "The list of project names that contain PCA-related Terraform code (e.g. [\"my-pca-project\"])."
+  default     = []
+}
+
+variable "s3_profile" {
+  type = string
+  description = "AWS S3 Bucket Profile"
+  default = "ocon-terraform-account-admin"
+  #default = "ocon-terraform-backend"
+}
+
+variable "s3_key" {
+  type = string
+  description = "AWS S3 Bucket Key"
+  default = "ocon-accounts/terraform.tfstate"
+}
+
+variable "dynamodb_table_name" {
+  type        = string
+  description = "The name to use for the DynamoDB table that will be used for Terraform state locking."
+  default     = "terraform-state-lock"
+}
+
+variable "dynamodb_table_read_capacity" {
+  type        = number
+  description = "The number of read units for the DynamoDB table that will be used for Terraform state locking."
+  default     = 20
+}
+
+variable "dynamodb_table_write_capacity" {
+  type        = number
+  description = "The number of write units for the DynamoDB table that will be used for Terraform state locking."
+  default     = 20
+}
+
+# ------------------------------------------------------------------------------
+#                         IAM Roles, Policies, and Documents
 # ------------------------------------------------------------------------------
 
 variable "access_domainmanager_terraform_backend_role_description" {
@@ -51,24 +107,6 @@ variable "access_terraform_backend_role_name" {
   default     = "AccessTerraformBackend"
 }
 
-variable "aws_region" {
-  type        = string
-  description = "The AWS region where the non-global resources for this account are to be provisioned (e.g. \"us-east-1\")."
-  default     = "us-east-1"
-}
-
-variable "domainmanager_terraform_projects" {
-  type        = list(string)
-  description = "The list of project names that contain Domain Manager-related Terraform code (e.g. [\"my-domain-manager-project\"])."
-  default     = []
-}
-
-variable "pca_terraform_projects" {
-  type        = list(string)
-  description = "The list of project names that contain PCA-related Terraform code (e.g. [\"my-pca-project\"])."
-  default     = []
-}
-
 variable "provisionaccount_role_description" {
   type        = string
   description = "The description to associate with the IAM role that allows sufficient permissions to provision all AWS resources in the Terraform account."
@@ -103,28 +141,4 @@ variable "read_terraform_state_role_name" {
   type        = string
   description = "The name to assign the IAM role (as well as the corresponding policy) that allows read-only access to the S3 bucket where Terraform state is stored."
   default     = "ReadTerraformState"
-}
-
-variable "state_table_name" {
-  type        = string
-  description = "The name to use for the DynamoDB table that will be used for Terraform state locking."
-  default     = "terraform-state-lock"
-}
-
-variable "state_table_read_capacity" {
-  type        = number
-  description = "The number of read units for the DynamoDB table that will be used for Terraform state locking."
-  default     = 20
-}
-
-variable "state_table_write_capacity" {
-  type        = number
-  description = "The number of write units for the DynamoDB table that will be used for Terraform state locking."
-  default     = 20
-}
-
-variable "tags" {
-  type        = map(string)
-  description = "Tags to apply to all AWS resources created."
-  default     = {}
 }
