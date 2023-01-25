@@ -71,40 +71,64 @@ variable "dynamodb_table_write_capacity" {
 #                         IAM Roles, Policies, and Documents
 # ------------------------------------------------------------------------------
 
-variable "access_domainmanager_terraform_backend_role_description" {
-  type        = string
-  description = "The description to associate with the IAM role (as well as the corresponding policy) that allows sufficient access to the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-  default     = "Allows sufficient access to the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-}
-
-variable "access_domainmanager_terraform_backend_role_name" {
-  type        = string
-  description = "The name to assign the IAM role (as well as the corresponding policy) that allows sufficient access to the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-  default     = "AccessDomainManagerTerraformBackend"
-}
-
-variable "access_pca_terraform_backend_role_description" {
-  type        = string
-  description = "The description to associate with the IAM role (as well as the corresponding policy) that allows sufficient access to the PCA-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-  default     = "Allows sufficient access to the PCA-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-}
-
-variable "access_pca_terraform_backend_role_name" {
-  type        = string
-  description = "The name to assign the IAM role (as well as the corresponding policy) that allows sufficient access to the PCA-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-  default     = "AccessPCATerraformBackend"
-}
-
-variable "access_terraform_backend_role_description" {
+variable "terraformbackend_role_description" {
   type        = string
   description = "The description to associate with the IAM role (as well as the corresponding policy) that allows sufficient access to the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
   default     = "Allows sufficient access to the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
 }
 
-variable "access_terraform_backend_role_name" {
+variable "terraformbackend_role_name" {
   type        = string
   description = "The name to assign the IAM role (as well as the corresponding policy) that allows sufficient access to the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
   default     = "AccessTerraformBackend"
+}
+
+variable "provisionbackend_policy_description" {
+  type        = string
+  description = "The description to associate with the IAM policy that allows sufficient permissions to provision the Terraform backend resources in the Terraform account."
+  default     = "Allows sufficient permissions to provision the Terraform backend resources in the Terraform account."
+}
+
+variable "provisionbackend_policy_name" {
+  type        = string
+  description = "The name to assign the IAM policy that allows sufficient permissions to provision the Terraform backend resources in the Terraform account."
+  default     = "ProvisionBackend"
+}
+
+variable "provisionaccount_role_name" {
+  type        = string
+  description = "The name to assign the IAM role that allows sufficient permissions to provision all AWS resources in the Terraform account."
+  default     = "ProvisionAccount"
+}
+
+variable "provisionaccount_role_description" {
+  type        = string
+  description = "The description to associate with the IAM role that allows sufficient permissions to provision all AWS resources in the Terraform account."
+  default     = "Allows sufficient permissions to provision all AWS resources in the Terraform account."
+}
+
+variable "terraform_domainmanager_role_description" {
+  type        = string
+  description = "The description to associate with the IAM role (as well as the corresponding policy) that allows sufficient access to the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
+  default     = "Allows sufficient access to the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
+}
+
+variable "terraform_domainmanager_role_name" {
+  type        = string
+  description = "The name to assign the IAM role (as well as the corresponding policy) that allows sufficient access to the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
+  default     = "AccessDomainManagerTerraformBackend"
+}
+
+variable "pca_terraform_role_description" {
+  type        = string
+  description = "The description to associate with the IAM role (as well as the corresponding policy) that allows sufficient access to the PCA-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
+  default     = "Allows sufficient access to the PCA-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
+}
+
+variable "pca_terraform_role_name" {
+  type        = string
+  description = "The name to assign the IAM role (as well as the corresponding policy) that allows sufficient access to the PCA-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
+  default     = "AccessPCATerraformBackend"
 }
 
 variable "provisionaccount_role_description" {
