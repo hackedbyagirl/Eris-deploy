@@ -1,7 +1,5 @@
 # ------------------------------------------------------------------------------
 # REQUIRED PARAMETERS
-#
-# You must provide a value for each of these parameters.
 # ------------------------------------------------------------------------------
 
 variable "provisionaccount_role_description" {
@@ -20,24 +18,28 @@ variable "users_account_id" {
 }
 
 # ------------------------------------------------------------------------------
-# OPTIONAL PARAMETERS
-#
-# These parameters have reasonable defaults.
+#                                AWS Configuration
 # ------------------------------------------------------------------------------
-variable "sns_policy_description" {
-  type        = string
-  description = "The description to associate with the IAM policy that allows sufficient permissions to create and subscribe to a generic notification topic for CloudWatch alarms in the new account."
-  default     = "Allows sufficient permissions to create and subscribe to a generic notification topic for CloudWatch alarms in the new account."
-}
-
-variable "sns_policy_name" {
-  type        = string
-  description = "The name to assign the IAM policy that allows sufficient permissions to create and subscribe to a generic notification topic for CloudWatch alarms in the new account."
-  default     = "CWAlarmSNSTopicPolicy"
-}
-
 variable "aws_region" {
   type        = string
   description = "The AWS region where the non-global resources for the new account are to be provisioned (e.g. \"us-east-1\")."
   default     = "us-east-1"
+}
+
+# ------------------------------------------------------------------------------
+#                         IAM Roles, Policies, and Documents
+# ------------------------------------------------------------------------------
+
+variable "iampolicy_attachment" {
+  type = string
+  description = "IAM Full Access Policy Attackment"
+  default = "arn:aws:iam::aws:policy/IAMFullAccess"
+  
+}
+
+variable "servicequotas_policy_attachment" {
+  type = string
+  description = "Service Quotas Full Access Policy Attachment"
+  default = "arn:aws:iam::aws:policy/ServiceQuotasFullAccess"
+  
 }

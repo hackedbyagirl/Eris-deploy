@@ -10,18 +10,12 @@ resource "aws_iam_role" "provisionaccount_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "iamfullaccess_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
+  policy_arn = var.iampolicy_attachment
   role       = aws_iam_role.provisionaccount_role.name
 }
 
 # This policy allows us to request changes to default service quotas
 resource "aws_iam_role_policy_attachment" "servicequotasfullaccess_policy_attachment" {
-  policy_arn = "arn:aws:iam::aws:policy/ServiceQuotasFullAccess"
-  role       = aws_iam_role.provisionaccount_role.name
-}
-
-# This policy allows us to create and subscribe to SNS topics
-resource "aws_iam_role_policy_attachment" "sns_policy_attachment" {
-  policy_arn = aws_iam_policy.sns.arn
+  policy_arn = var.servicequotas_policy_attachment
   role       = aws_iam_role.provisionaccount_role.name
 }
