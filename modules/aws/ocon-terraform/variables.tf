@@ -131,30 +131,6 @@ variable "pca_terraform_role_name" {
   default     = "AccessPCATerraformBackend"
 }
 
-variable "provisionaccount_role_description" {
-  type        = string
-  description = "The description to associate with the IAM role that allows sufficient permissions to provision all AWS resources in the Terraform account."
-  default     = "Allows sufficient permissions to provision all AWS resources in the Terraform account."
-}
-
-variable "provisionaccount_role_name" {
-  type        = string
-  description = "The name to assign the IAM role that allows sufficient permissions to provision all AWS resources in the Terraform account."
-  default     = "ProvisionAccount"
-}
-
-variable "provisionbackend_policy_description" {
-  type        = string
-  description = "The description to associate with the IAM policy that allows sufficient permissions to provision the Terraform backend resources in the Terraform account."
-  default     = "Allows sufficient permissions to provision the Terraform backend resources in the Terraform account."
-}
-
-variable "provisionbackend_policy_name" {
-  type        = string
-  description = "The name to assign the IAM policy that allows sufficient permissions to provision the Terraform backend resources in the Terraform account."
-  default     = "ProvisionBackend"
-}
-
 variable "read_terraform_state_role_description" {
   type        = string
   description = "The description to associate with the IAM role (as well as the corresponding policy) that allows read-only access to the S3 bucket where Terraform state is stored."

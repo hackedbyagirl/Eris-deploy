@@ -15,7 +15,7 @@ data "aws_iam_policy_document" "terraformbackend_access_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.s3_bucket.arn, # vARIABLE ?
+      aws_s3_bucket.state_bucket.arn, # vARIABLE ?
     ]
   }
 
@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "terraformbackend_access_doc" {
       "s3:PutObject",
     ]
     resources = [
-      "${aws_s3_bucket.s3_bucket.arn}/*", # vARIABLE ?
+      "${aws_s3_bucket.var.state_bucket.arn}/*", # vARIABLE ?
     ]
   }
 
@@ -73,7 +73,7 @@ data "aws_iam_policy_document" "provisionbackend_doc" {
       "s3:*"
     ]
     resources = [
-      "arn:aws:s3:::${var.s3_bucket_name}",
+      "arn:aws:s3:::${var.state_bucket_name}",
     ]
   }
 
@@ -112,7 +112,7 @@ data "aws_iam_policy_document" "read_terraform_state_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.s3_bucket.arn,
+      aws_s3_bucket.var.state_bucket.arn,
     ]
   }
 
@@ -121,7 +121,7 @@ data "aws_iam_policy_document" "read_terraform_state_doc" {
       "s3:GetObject",
     ]
     resources = [
-      "${aws_s3_bucket.s3_bucket.arn}/*",
+      "${aws_s3_bucket.var.state_bucket.arn}/*",
     ]
   }
 }
@@ -146,7 +146,7 @@ data "aws_iam_policy_document" "pca_terraform_access_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.s3_bucket.arn,
+      aws_s3_bucket.var.state_bucket.arn,
     ]
   }
 
@@ -157,7 +157,7 @@ data "aws_iam_policy_document" "pca_terraform_access_doc" {
       "s3:PutObject",
     ]
     # Any workspace of any project in var.pca_terraform_projects
-    resources = [for tf_project in var.pca_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.s3_bucket.arn, tf_project)]
+    resources = [for tf_project in var.pca_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.var.state_bucket.arn, tf_project)]
   }
 
   statement {
@@ -202,7 +202,7 @@ data "aws_iam_policy_document" "terraform_domainmanger_access_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.s3_bucket.arn,
+      aws_s3_bucket.state_bucket.arn,
     ]
   }
 
@@ -213,7 +213,7 @@ data "aws_iam_policy_document" "terraform_domainmanger_access_doc" {
       "s3:PutObject",
     ]
     # Any workspace of any project in var.domainmanager_terraform_projects
-    resources = [for tf_project in var.domainmanager_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.s3_bucket.arn, tf_project)]
+    resources = [for tf_project in var.domainmanager_terraform_projects : format("%s/env:/*/%s/*", aws_s3_bucket.var.state_bucket.arn, tf_project)]
   }
 
   statement {
