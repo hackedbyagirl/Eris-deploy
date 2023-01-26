@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "terraformbackend_access_doc" {
       "s3:PutObject",
     ]
     resources = [
-      "${aws_s3_bucket.var.tf_bucket.arn}/*", 
+      "${aws_s3_bucket.tf_bucket.arn}/*", 
     ]
   }
 
@@ -73,7 +73,7 @@ data "aws_iam_policy_document" "provisionbackend_doc" {
       "s3:*"
     ]
     resources = [
-      "arn:aws:s3:::${var.tf_bucket_name}",
+      "arn:aws:s3:::${var.s3_bucket}",
     ]
   }
 
@@ -112,7 +112,7 @@ data "aws_iam_policy_document" "read_terraform_state_doc" {
       "s3:ListBucket",
     ]
     resources = [
-      aws_s3_bucket.var.tf_bucket.arn,
+      aws_s3_bucket.tf_bucket.arn,
     ]
   }
 
@@ -121,7 +121,7 @@ data "aws_iam_policy_document" "read_terraform_state_doc" {
       "s3:GetObject",
     ]
     resources = [
-      "${aws_s3_bucket.var.tf_bucket.arn}/*",
+      "${aws_s3_bucket.tf_bucket.arn}/*",
     ]
   }
 }
@@ -132,7 +132,17 @@ resource "aws_iam_policy" "read_terraform_state_policy" {
   policy      = data.aws_iam_policy_document.read_terraform_state_doc.json
 }
 
+resource "aws_iam_role" "read_terraform_state_role" {
+  assume_role_policy = data.aws_iam_policy_document.assume_role_doc.json
+  description        = var.read_terraform_state_role_description
+  name               = var.read_terraform_state_role_name
+  
+}
 
+resource "aws_iam_role_policy_attachment" "read_terraform_state_policy_attachment" {
+  policy_arn = aws_iam_policy.read_terraform_state_policy.arn
+  role       = aws_iam_role.read_terraform_state_role.name
+}
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -229,15 +239,15 @@ data "aws_iam_policy_document" "terraform_domainmanger_access_doc" {
 }
 
 resource "aws_iam_policy" "terraform_domainmanger_access_policy" {
-  description = var.terraform_domainmanger_role_description
-  name        = var.terraform_domainmanger_role_name
+  description = var.terraform_domainmanager_role_description
+  name        = var.terraform_domainmanager_role_name
   policy      = data.aws_iam_policy_document.terraform_domainmanger_access_doc.json
 }
 
 resource "aws_iam_role" "terraform_domainmanger_role" {
   assume_role_policy = data.aws_iam_policy_document.assume_role_doc.json
-  description        = var.terraform_domainmanger_role_description
-  name               = var.terraform_domainmanger_role_name
+  description        = var.terraform_domainmanager_role_description
+  name               = var.terraform_domainmanager_role_name
 }
 
 # Attach the IAM policy to the role

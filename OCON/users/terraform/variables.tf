@@ -36,19 +36,6 @@ variable "pca_terraform_projects" {
   default     = []
 }
 
-variable "s3_profile" {
-  type = string
-  description = "AWS S3 Bucket Profile"
-  default = "ocon-terraform-account-admin"
-  #default = "ocon-terraform-backend"
-}
-
-variable "s3_key" {
-  type = string
-  description = "AWS S3 Bucket Key"
-  default = "ocon-accounts/terraform.tfstate"
-}
-
 variable "dynamodb_table_name" {
   type        = string
   description = "The name to use for the DynamoDB table that will be used for Terraform state locking."

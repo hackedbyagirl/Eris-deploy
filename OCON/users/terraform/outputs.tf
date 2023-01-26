@@ -1,5 +1,5 @@
 output "domainmanager_terraform_role" {
-  value       = aws_iam_role.domainmanager_terraform_role
+  value       = aws_iam_role.terraform_domainmanger_role
   description = "The IAM role that allows sufficient access to the the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
 }
 
