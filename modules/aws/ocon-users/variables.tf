@@ -1,11 +1,9 @@
 # ------------------------------------------------------------------------------
-#                                  AWS Configuration
+#                             REQUIRED PARAMETERS
 # ------------------------------------------------------------------------------
-
-variable "aws_region" {
-  type        = string
-  description = "The AWS region where the non-global resources for the Master account are to be provisioned (e.g. \"us-east-1\")."
-  default     = "us-west-1"
+variable "godess_usernames" {
+  type        = list(string)
+  description = "The usernames associated with the godess-like accounts to be created, which are allowed to access the terraform backend, are IAM administrators for the Users account, and are allowed to assume any role that has a trust relationship with the Users account.  The format first.last is recommended.  Example: [\"firstname1.lastname1\",  \"firstname2.lastname2\"]."
 }
 
 variable "tags" {
@@ -15,60 +13,33 @@ variable "tags" {
 }
 
 # ------------------------------------------------------------------------------
-#                           AWS Backend Configuration
+#                                  AWS Configuration
 # ------------------------------------------------------------------------------
 
-variable "s3_bucket" {
+variable "aws_region" {
   type        = string
-  description = "The AWS S3 Bucket"
-  default     = "camelot-ocon-terraform-state"
-}
-
-variable "s3_profile" {
-  type        = string
-  description = "AWS S3 Bucket Profile"
-  default     = "ocon-terraform-backend"
-}
-
-variable "s3_key" {
-  type        = string
-  default     = "ocon-accounts/master.tfstate"  
-}
-
-variable "dynamodb_name" {
-  type        = string
-  description = "AWS DynamoDB Table"
-  default     = "terraform-state-lock"
+  description = "The AWS region where the non-global resources for the Master account are to be provisioned (e.g. \"us-east-1\")."
+  default     = "us-west-1"
 }
 
 # ------------------------------------------------------------------------------
-#                           User/Group Configuration
+#                              AWS User Configuration
 # ------------------------------------------------------------------------------
-variable "godess_usernames" {
-  type        = list(string)
-  description = "The usernames associated with the god-like accounts to be created, which are allowed to access the terraform backend, are IAM administrators for the Users account, and are allowed to assume any role that has a trust relationship with the Users account.  The format first.last is recommended.  Example: [\"firstname1.lastname1\",  \"firstname2.lastname2\"]."
-}
-
-variable "godess_group_name" {
+variable "godesses_group_name" {
   type        = string
   description = "The name of the group to be created for the god-like users that are allowed to access the terraform backend, are IAM administrators for the Users account, and are allowed to assume any role that has a trust relationship with the Users account."
   default     = "godesses"
 }
 
 # ------------------------------------------------------------------------------
-#                         IAM Documents, Policies, and Roles
+#                         IAM Roles, Policies, and Documents
 # ------------------------------------------------------------------------------
 
-variable "assume_any_role_anywhere_policy_description" {
+# Role: ProvisionOCONUsersAccount
+variable "provisionaccount_role_name" {
   type        = string
-  description = "The description to associate with the IAM policy that allows assumption of any role in any account, so long as it has a trust relationship with the Users account."
-  default     = "Allow assumption of any role in any account, so long as it has a trust relationship with the Users account."
-}
-
-variable "assume_any_role_anywhere_policy_name" {
-  type        = string
-  description = "The name to assign the IAM policy that allows assumption of any role in any account, so long as it has a trust relationship with the Users account."
-  default     = "AssumeAnyRoleAnywhere"
+  description = "The name to assign the IAM role that allows sufficient permissions to provision all AWS resources in the Users account."
+  default     = "ProvisionOCONUsersAccount"
 }
 
 variable "provisionaccount_role_description" {
@@ -77,10 +48,24 @@ variable "provisionaccount_role_description" {
   default     = "Allows sufficient access to provision all AWS resources in the Users account."
 }
 
-variable "provisionaccount_role_name" {
+# Policy: AssumeAnyRoleAnywhere
+variable "assume_any_role_anywhere_policy_name" {
   type        = string
-  description = "The name to assign the IAM role that allows sufficient permissions to provision all AWS resources in the Users account."
-  default     = "ProvisionAccount"
+  description = "The name to assign the IAM policy that allows assumption of any role in any account, so long as it has a trust relationship with the Users account."
+  default     = "AssumeAnyRoleAnywhere"
+}
+
+variable "assume_any_role_anywhere_policy_description" {
+  type        = string
+  description = "The description to associate with the IAM policy that allows assumption of any role in any account, so long as it has a trust relationship with the Users account."
+  default     = "Allow assumption of any role in any account, so long as it has a trust relationship with the Users account."
+}
+
+# Policy: SelfManagedMFA
+variable "self_managed_creds_with_mfa_policy_name" {
+  type        = string
+  description = "The name to assign the IAM policy that allows users to administer their own user accounts, requiring multi-factor authentication (MFA)."
+  default     = "SelfManagedMFA"
 }
 
 variable "self_managed_creds_with_mfa_policy_description" {
@@ -89,10 +74,12 @@ variable "self_managed_creds_with_mfa_policy_description" {
   default     = "Allows sufficient access for users to administer their own user accounts, requiring multi-factor authentication (MFA)."
 }
 
-variable "self_managed_creds_with_mfa_policy_name" {
+
+# Policy: SelfManagedNoMFA
+variable "self_managed_creds_without_mfa_policy_name" {
   type        = string
-  description = "The name to assign the IAM policy that allows users to administer their own user accounts, requiring multi-factor authentication (MFA)."
-  default     = "SelfManagedCredsWithMFA"
+  description = "The name to assign the IAM policy that allows users to administer their own user accounts, without requiring multi-factor authentication (MFA)."
+  default     = "SelfManagedNoMFA"
 }
 
 variable "self_managed_creds_without_mfa_policy_description" {
@@ -100,10 +87,3 @@ variable "self_managed_creds_without_mfa_policy_description" {
   description = "The description to associate with the IAM policy that allows users to administer their own user accounts, without requiring multi-factor authentication (MFA)."
   default     = "Allows sufficient access for users to administer their own user accounts, without requiring multi-factor authentication (MFA)."
 }
-
-variable "self_managed_creds_without_mfa_policy_name" {
-  type        = string
-  description = "The name to assign the IAM policy that allows users to administer their own user accounts, without requiring multi-factor authentication (MFA)."
-  default     = "SelfManagedCredsWithoutMFA"
-}
-
