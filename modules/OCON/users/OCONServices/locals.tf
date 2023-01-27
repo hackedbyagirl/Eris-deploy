@@ -1,16 +1,22 @@
 # ------------------------------------------------------------------------------
 # Retrieve the information for all accounts in the organization.  This
-# is used, for instance, to lookup the account IDs for all assessment
-# accounts.
+# is used, for instance, to lookup the account ID for the Users
+# account.
+#
+# Note: Do I need to change for PoC Purpose since I dont have Org
 # ------------------------------------------------------------------------------
+data "aws_caller_identity" "oconservices" {
+}
+
 data "aws_organizations_organization" "ocon" {
+  provider = aws.organizationsreadonly
 }
 
 locals {
   # Find the Shared Services account name by id.
   sharedservices_account_name = [
     for x in data.aws_organizations_organization.ocon.accounts :
-    x.name if x.id == data.aws_caller_identity.sharedservices.account_id
+    x.name if x.id == data.aws_caller_identity.oconservices.account_id
   ][0]
 
   # Determine the dynamic assessment account ("env*") IDs that are the same
@@ -28,6 +34,6 @@ locals {
   users_account_id = [
     for account in data.aws_organizations_organization.ocon.accounts :
     account.id
-    if account.name == "Users"
+    if account.name == "OCONUsers"
   ][0]
 }

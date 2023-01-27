@@ -2,8 +2,9 @@ provider "aws" {
   default_tags {
     tags = var.tags
   }
-  # Use this profile once the account has been bootstrapped.
-  profile = "ocon-users-account-admin"
+  
+  profile = "cool-users-account-admin"
+  # profile = "cool-users-provisionaccount"
   region = var.aws_region
 }
 
@@ -14,6 +15,7 @@ provider "aws" {
     tags = var.tags
   }
   
-  profile = "ocon-master-account-admin"
+  profile = "cool-master-account-admin"
+  # profile = "cool-master-organizationsreadonly"
   region = var.aws_region
 }

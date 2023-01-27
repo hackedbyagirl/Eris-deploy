@@ -1,6 +1,14 @@
+# ------------------------------------------------------------------------------
 # Retrieve the information for all accounts in the organization.  This
 # is used, for instance, to lookup the account ID for the Users
 # account.
+#
+# Note: Do I need to change for PoC Purpose since I dont have Org
+# ------------------------------------------------------------------------------
+
+data "aws_caller_identity" "oconterraform" {
+}
+
 data "aws_organizations_organization" "ocon" {
   provider = aws.organizationsreadonly
 }
