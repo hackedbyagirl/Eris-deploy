@@ -27,24 +27,9 @@ output "assume_any_role_anywhere_policy" {
   description = "The IAM role that allows assumption of any role in any account, so long as it has a trust relationship with the Users account."
 }
 
-output "terraform_domainmanger_role" {
-  value       = aws_iam_role.terraform_domainmanger_role
-  description = "The IAM role that allows sufficient access to the the Domain Manager-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-}
-
-output "pca_terraform_role" {
-  value       = aws_iam_role.pca_terraform_role
-  description = "The IAM role that allows sufficient access to the the PCA-related items in the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-}
-
 output "terraformresources_role" {
   value       = aws_iam_role.terraformresources_role
   description = "The IAM role that allows sufficient access to the Terraform S3 bucket and DynamoDB table to use those resources as a Terraform backend."
-}
-
-output "provisionaccount_role" {
-  value       = module.provisionaccount.provisionaccount_role
-  description = "The IAM role that allows sufficient permissions to provision all AWS resources in the Terraform account."
 }
 
 output "read_terraform_state_role" {

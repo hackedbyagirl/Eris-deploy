@@ -10,11 +10,8 @@
 # ------------------------------------------------------------------------------
 
 resource "aws_s3_bucket" "tf_bucket" {
-  depends_on = [
-    aws_iam_role_policy_attachment.provisionbackend_policy_attachment,
-  ]
-
-  bucket = var.s3_bucket_name
+  
+  bucket = var.s3_bucket
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -41,11 +38,7 @@ resource "aws_s3_bucket_public_access_block" "tf_bucket" {
 # ------------------------------------------------------------------------------
 
 resource "aws_dynamodb_table" "tf_dynamodb" {
-  depends_on = [
-    aws_iam_role_policy_attachment.provisionbackend_policy_attachment,
-  ]
-
-  attribute {
+   attribute {
     name = "LockID"
     type = "S"
   }
@@ -60,41 +53,4 @@ resource "aws_dynamodb_table" "tf_dynamodb" {
 # ------------------------------------------------------------------------------
 
 
-# ------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------
-# ---------------------------WriteAssessmentFindings---------------------------
-# ------------------------------------------------------------------------------
-# ------------------------------------------------------------------------------
-
-// Create IAM Role: WriteAssessmentFindings 
-resource "aws_iam_role" "write_assessment_findings_role" {
-  assume_role_policy = data.aws_iam_policy_document.assessment_account_assume_role_doc.json
-  description        = var.write_assessment_findings_role_description
-  name               = var.write_assessment_findings_role_name
-}
-
-// Define AccessTerraformResources IAM Role and Policy Permissions
-data "aws_iam_policy_document" "write_assessment_findings_policy_doc" {
-  statement {
-    actions = [
-      "s3:PutObject",
-    ]
-    resources = [
-      "arn:aws:s3:::${var.assessment_findings_bucket_name}/${var.assessment_findings_bucket_object_key_pattern}",
-    ]
-  }
-}
-
-// Create IAM Policy: AccessTerraformResources
-resource "aws_iam_policy" "write_assessment_findings_policy" {
-  description = var.write_assessment_findings_role_description
-  name        = var.write_assessment_findings_role_name
-  policy      = data.aws_iam_policy_document.write_assessment_findings_policy_doc.json
-}
-
-// Attach the IAM policy to the IAM Role: AccessTerraformResources
-resource "aws_iam_role_policy_attachment" "write_assessment_findings" {
-  policy_arn = aws_iam_policy.write_assessment_findings_policy.arn
-  role       = aws_iam_role.write_assessment_findings_role.name
-}
 
