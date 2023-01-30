@@ -201,6 +201,19 @@ variable "provision_terraform_resources_policy_description" {
   default     = "Allows sufficient permissions to provision the Terraform backend resources in the Terraform account."
 }
 
+# Policy
+variable "provisionnetworking_policy_name" {
+  type        = string
+  description = "IAM policy that allows all of the permissions necessary to provision the networking layer in the COSTeamAccount account."
+  default     = "ProvisionNetworkPolicy"
+}
+
+variable "provisionnetworking_policy_description" {
+  type        = string
+  description = "IAM policy that allows all of the permissions necessary to provision the networking layer in the COSTeamAccount account."
+  default     = "Provis"
+}
+
 
 # Role: ReadTerraformState
 variable "read_terraform_state_role_name" {
